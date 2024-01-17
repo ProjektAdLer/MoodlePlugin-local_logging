@@ -5,7 +5,7 @@ $tasks = array(
     array(
         'classname' => 'local_logging\\task\\log_rotation_task',
         'blocking' => 0,
-        'minute' => '*',
+        'minute' => '6',
         'hour' => '*',
         'day' => '*',
         'dayofweek' => '*',
