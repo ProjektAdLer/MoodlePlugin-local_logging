@@ -13,6 +13,9 @@ Das Local Logging Plugin ermöglicht eine einfache Protokollierung von Ereigniss
 | MOODLE_402_STABLE       | 8.2         |
 | MOODLE_403_STABLE       | 8.1         |
 | MOODLE_403_STABLE       | 8.2         |
+| MOODLE_404_STABLE       | 8.1         |
+| MOODLE_404_STABLE       | 8.2         |
+| MOODLE_404_STABLE       | 8.3         |
 
 
 ## Funktionsweise
