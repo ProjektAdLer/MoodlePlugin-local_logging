@@ -6,6 +6,10 @@ use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
 
+// todo: user id
+// TODO: in case of cli script, output to stdout
+// TODO: automatically log all exceptions
+
 class logger {
     private String $component;
     private String $title;
