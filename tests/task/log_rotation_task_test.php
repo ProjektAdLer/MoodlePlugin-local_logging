@@ -4,15 +4,26 @@ use local_logging\task\log_rotation_task;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/local/logging/classes/task/log_rotation_task.php');
+require_once ($CFG->dirroot . '/local/logging/classes/task/log_rotation_task.php');
 
-class log_rotation_task_test extends advanced_testcase {
 
-    public function setUp(): void {
+/** Get parsed xml from backup controller object.
+ * @param $bc backup_controller
+ * @param $type string type of backup, one of 'module', 'course'
+ * @return false|SimpleXMLElement
+ *
+ * # ANF-ID: [MVP13]
+ */
+class log_rotation_task_test extends advanced_testcase
+{
+
+    public function setUp(): void
+    {
         $this->resetAfterTest(true);
     }
 
-    public function test_log_rotation() {
+    public function test_log_rotation()
+    {
         global $DB, $CFG;
 
         // Set the number of logs to keep
