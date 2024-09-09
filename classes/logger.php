@@ -9,6 +9,7 @@ defined('MOODLE_INTERNAL') || die();
 // todo: user id
 // TODO: in case of cli script, output to stdout
 // TODO: automatically log all exceptions
+// - https://stackoverflow.com/a/27238667
 
 class logger {
     private String $component;
@@ -48,15 +49,25 @@ class logger {
             return;
         }
 
-        global $DB;
-        $record = new stdClass();
-        $record->logdate = time();
-        $record->level = $level;
-        $record->component = $this->component;
-        $record->title = $this->title;
-        $record->message = $message;
+        if (defined('CLI_SCRIPT') || defined('CLI_SCRIPT')) {
+            echo '[' . date('Y-m-d H:i:s') . '] ' . strtoupper(array_search($level, [
+                    self::LEVEL_TRACE => 'TRACE',
+                    self::LEVEL_DEBUG => 'DEBUG',
+                    self::LEVEL_INFO => 'INFO',
+                    self::LEVEL_WARNING => 'WARNING',
+                    self::LEVEL_ERROR => 'ERROR',
+                ])) . ' ' . $this->component . ' - ' . $this->title . ': ' . $message . PHP_EOL;
+        } else {
+            global $DB;
+            $record = new stdClass();
+            $record->logdate = time();
+            $record->level = $level;
+            $record->component = $this->component;
+            $record->title = $this->title;
+            $record->message = $message;
 
-        $DB->insert_record('local_logging_log', $record);
+            $DB->insert_record('local_logging_log', $record);
+        }
     }
 
     /**
