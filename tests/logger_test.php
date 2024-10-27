@@ -1,49 +1,96 @@
 <?php
-use local_logging\logger;
+
+namespace local_logging;
+
+global $CFG;
+
+use core\di;
+use local_logging\lib\adler_testcase;
+use local_logging\local\output\log_output;
+use local_logging\local\output\log_output_stdout;
+use local_logging\local\util;
+use Mockery;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once($CFG->dirroot . '/local/logging/classes/logger.php');
+require_once($CFG->dirroot . '/local/logging/tests/lib/adler_testcase.php');
 
-class logger_test extends advanced_testcase {
+class logger_test extends adler_testcase {
+    public function provide_test_all_levels_data() {
+        return [
+            'trace' => [
+                'level_name' => 'TRACE',
+                'level_int' => util::LEVEL_TRACE,
+            ],
+            'debug' => [
+                'level_name' => 'DEBUG',
+                'level_int' => util::LEVEL_DEBUG,
+            ],
+            'info' => [
+                'level_name' => 'INFO',
+                'level_int' => util::LEVEL_INFO,
+            ],
+            'warning' => [
+                'level_name' => 'WARNING',
+                'level_int' => util::LEVEL_WARNING,
+            ],
+            'error' => [
+                'level_name' => 'ERROR',
+                'level_int' => util::LEVEL_ERROR,
+            ]
+        ];
+    }
 
-    public function setUp(): void {
-        // Set up the necessary environment.
-        $this->resetAfterTest(true);
+    /**
+     * @dataProvider provide_test_all_levels_data
+     */
+    public function test_all_levels($level_name, $level_int) {
+        $mockOutput = Mockery::mock(log_output::class);
+        $mockOutput->shouldReceive('output')
+            ->once()
+            ->with('Test message', $level_int, 'testcomponent', 'testtitle', Mockery::type('int'), null);
+        di::set(log_output::class, $mockOutput);
+
+        global $CFG;
+        $CFG->local_logging_minloglevel = $level_name;
+
+        // Create a logger instance.
+        $logger = new logger('testcomponent', 'testtitle');
+
+        // Use the logger to log a message.
+        $logger->{$level_name}('Test message');
     }
 
     public function test_log_info() {
-        global $DB;
-        global $CFG;
+        $mockOutput = Mockery::mock(log_output_stdout::class);
+        $mockOutput->shouldReceive('output')
+            ->once()
+            ->with('Test info message', util::LEVEL_INFO, 'testcomponent', 'testtitle', Mockery::type('int'), null);
+        di::set(log_output::class, $mockOutput);
 
-        // Set min log level to 'TRACE'
-        $CFG->local_logging_minloglevel = 'DEBUG';
+        global $CFG;
+        $CFG->local_logging_minloglevel = 'TRACE';
 
         // Create a logger instance.
         $logger = new logger('testcomponent', 'testtitle');
 
         // Use the logger to log an info message.
         $logger->info('Test info message');
+    }
 
-        // Retrieve the last log entry from the database.
-        $lastlog = $DB->get_records('local_logging_log', null, 'id DESC', '*', 0, 1);
-        if ($lastlog) {
-            $lastlog = reset($lastlog); // Resets the internal pointer of the array to the first element and returns the value of the first array element.
-        }
-        // Assert that the log entry is as expected.
-        $this->assertEquals('Test info message', $lastlog->message);
-        $this->assertEquals(logger::LEVEL_INFO, $lastlog->level);
-        $this->assertEquals('testcomponent', $lastlog->component);
-        $this->assertEquals('testtitle', $lastlog->title);
+    public function test_log_info_below_minloglevel() {
+        $mockOutput = Mockery::mock(log_output_stdout::class);
+        $mockOutput->shouldReceive('output')
+            ->never();
+        di::set(log_output::class, $mockOutput);
 
-        // just call the other logging methods
-        $logger->trace('Test trace message');
-        $logger->debug('Test debug message');
-        $logger->warning('Test warning message');
-        $logger->error('Test error message');
+        global $CFG;
+        $CFG->local_logging_minloglevel = 'ERROR';
 
-        // verify there are now 4 log entries (none for TRACE as min log level is DEBUG)
-        $this->assertEquals(4, $DB->count_records('local_logging_log'));
+        // Create a logger instance.
+        $logger = new logger('testcomponent', 'testtitle');
+
+        // Use the logger to log an info message.
+        $logger->info('Test info message');
     }
 }
