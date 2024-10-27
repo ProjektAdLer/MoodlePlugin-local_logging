@@ -119,11 +119,11 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
-#      # running this just before the tests to make sure that the vendor directory is not included in previous steps
-#      - name: Install plugin dependencies
-#        run: |
-#          cd moodle/local/logging
-#          composer i
+      # running this just before the tests to make sure that the vendor directory is not included in previous steps
+      - name: Install plugin dependencies
+        run: |
+          cd moodle/local/logging
+          composer i
 
       - name: PHPUnit tests
         if: ${{ always() }}
