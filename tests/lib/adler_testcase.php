@@ -4,7 +4,7 @@ namespace local_logging\lib;
 
 global $CFG;
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/local/adler/vendor/autoload.php');
+require_once($CFG->dirroot . '/local/logging/vendor/autoload.php');
 
 use advanced_testcase;
 use externallib_advanced_testcase;

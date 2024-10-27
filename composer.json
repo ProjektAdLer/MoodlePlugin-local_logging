@@ -1,6 +1,6 @@
 {
-  "name": "projekt-adler/local_adler",
-  "description": "Main plugin for the Adler project",
+  "name": "projekt-adler/local_logging",
+  "description": "Provides some basic log functionality",
   "require-dev": {
     "mockery/mockery": "^1.5.1"
   }
