@@ -1,5 +1,6 @@
 <?php
 
+use core\di;
 use local_logging\lib\adler_testcase;
 use local_logging\local\output\log_output_db;
 
@@ -13,7 +14,7 @@ class log_output_db_test extends adler_testcase {
         global $DB;
 
         // Create an instance of log_output_db.
-        $logOutput = new log_output_db();
+        $logOutput = di::get(log_output_db::class);
 
         // Define test data.
         $message = 'Test message';

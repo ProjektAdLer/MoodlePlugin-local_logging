@@ -7,12 +7,10 @@ use moodle_database;
 use stdClass;
 
 class log_output_db implements log_output {
-    private moodle_database $db;
 
-    public function __construct(moodle_database $db = null) {
-        global $DB;
-        $this->db = $db ?? $DB;
-    }
+    public function __construct(
+        private readonly moodle_database $db
+    ) {}
 
     /**
      * @throws dml_exception
