@@ -11,8 +11,7 @@
   },
   "initialTestsPhpOptions": "-dxdebug.mode=off -dpcov.enabled=1 -dpcov.directory=.",
   "bootstrap": "vendor/autoloadmoodle.php",
-//  "bootstrap": "../../lib/phpunit/bootstrap.php",
   "mutators": {
-    "@default": true
+    "@default": true,
   }
 }
