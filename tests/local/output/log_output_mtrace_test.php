@@ -10,10 +10,10 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/local/logging/tests/lib/adler_testcase.php');
 
-class log_output_stdout_test extends adler_testcase {
+class log_output_mtrace_test extends adler_testcase {
     public function test_output() {
         // Create an instance of log_output_stdout.
-        $logOutput = new log_output_stdout();
+        $logOutput = new log_output_mtrace();
 
         // Define test data.
         $message = 'Test message';

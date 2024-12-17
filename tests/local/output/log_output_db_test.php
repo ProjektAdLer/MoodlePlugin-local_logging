@@ -1,8 +1,9 @@
 <?php
 
+namespace local_logging\local\output;
+
 use core\di;
 use local_logging\lib\adler_testcase;
-use local_logging\local\output\log_output_db;
 
 defined('MOODLE_INTERNAL') || die();
 
