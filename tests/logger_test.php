@@ -16,7 +16,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/local/logging/tests/lib/adler_testcase.php');
 
 class logger_test extends adler_testcase {
-    public function provide_test_all_levels_data() {
+    public static function provide_test_all_levels_data() {
         return [
             'trace' => [
                 'level_name' => 'TRACE',
