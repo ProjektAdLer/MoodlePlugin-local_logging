@@ -26,11 +26,14 @@ class logger {
      * @throws dml_exception
      */
     private function log(int $level, string $message): void {
+        global $USER;
+
         if ($level < $this->minLoglevel) {
             return;
         }
-        $user = $USER ?? null;
-        di::get(log_output::class)->output($message, $level, $this->component, $this->title, time(), $user);
+
+        $user_id = $USER?->id ?? null;
+        di::get(log_output::class)->output($message, $level, $this->component, $this->title, time(), $user_id);
     }
 
     /**

@@ -23,6 +23,4 @@ $logger->debug('Eine Debug-Nachricht');
 
 ## Konfiguration
 
-Standardmäßig wird das Protokollierungsniveau auf WARNING gesetzt. Ändere `$CFG->local_logging_minloglevel` in deiner config.php, um dies anzupassen.
-
-Die maximale Anzahl von Protokolleinträgen, die aufbewahrt werden sollen, kann durch `$CFG->local_logging_maxlogs` (Standardwert: 10000) in config.php konfiguriert werden.
+Standardmäßig wird das Protokollierungsniveau auf WARNING gesetzt. Ändere `$CFG->local_logging_minloglevel` in deiner config.php, um dies anzupassen. Beispiel: `$CFG->local_logging_minloglevel = 'TRACE';`

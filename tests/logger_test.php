@@ -7,7 +7,7 @@ global $CFG;
 use core\di;
 use local_logging\lib\adler_testcase;
 use local_logging\local\output\log_output;
-use local_logging\local\output\log_output_stdout;
+use local_logging\local\output\log_output_to_default_outputs;
 use local_logging\local\util;
 use Mockery;
 
@@ -62,7 +62,7 @@ class logger_test extends adler_testcase {
     }
 
     public function test_log_info() {
-        $mockOutput = Mockery::mock(log_output_stdout::class);
+        $mockOutput = Mockery::mock(log_output_to_default_outputs::class);
         $mockOutput->shouldReceive('output')
             ->once()
             ->with('Test info message', util::LEVEL_INFO, 'testcomponent', 'testtitle', Mockery::type('int'), null);
@@ -79,7 +79,7 @@ class logger_test extends adler_testcase {
     }
 
     public function test_log_info_below_minloglevel() {
-        $mockOutput = Mockery::mock(log_output_stdout::class);
+        $mockOutput = Mockery::mock(log_output_to_default_outputs::class);
         $mockOutput->shouldReceive('output')
             ->never();
         di::set(log_output::class, $mockOutput);
